@@ -8,7 +8,7 @@ import { useState } from "react";
 interface Props  {
     params:{id:string}
 }
- function page({params}:Props) {
+ function Page({params}:Props) {
 
   const [IsChange, setIsChange] = useState(false)
   return (
@@ -22,4 +22,4 @@ interface Props  {
   )
 }
 
-export default page
+export default Page

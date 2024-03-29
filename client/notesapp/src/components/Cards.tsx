@@ -74,12 +74,27 @@ setIsChange(!IsChange)
 function CardSection({setIsChange ,IsChange}:{
   setIsChange:any; IsChange:boolean
 }){
-const [CardsData, setCardsData] = useState  ()
+const [CardsData, setCardsData] = useState <any> ()
 
-useEffect(()=>{
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/notes`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const data = await response.json();
+      setCardsData(data);
+    } catch (error:any) {
+      toast.error(error?.message);
+    }
+  };
 
-  fetch(`${process.env.NEXT_PUBLIC_HOST}/api/notes`).then(res=>res.json()).then(data=>setCardsData(data)).catch(error=>toast.error(error.message))
-},[IsChange])
+  // Immediately fetch data when component mounts
+  fetchData();
+
+  // Fetch data whenever IsChange changes
+}, [IsChange]);
 
 
   return(
